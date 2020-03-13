@@ -17,6 +17,10 @@ namespace iatec.Models
         public string Place { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
+        [DataType(DataType.DateTime)]
+        public System.DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "campo obrigatório")]
         [Range(1, int.MaxValue, ErrorMessage="categoria inválida")]
         public string UserId { get; set; }
 
