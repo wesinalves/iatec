@@ -83,7 +83,8 @@ namespace iatec.Controllers
             _context.Events.Add(@event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+            // return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+            return CreatedAtAction(nameof(GetEvent), new { id = @event.Id }, @event);
         }
 
         // DELETE: api/Event/5
