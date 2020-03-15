@@ -22,7 +22,7 @@ namespace iatec.Models
 
         [Required(ErrorMessage = "campo obrigatório")]
         [Range(1, int.MaxValue, ErrorMessage="categoria inválida")]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public User User { get; set; }
 
