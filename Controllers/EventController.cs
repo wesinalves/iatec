@@ -1,66 +1,110 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using iatec.Data;
 using iatec.Models;
-using System.Linq;
 
 namespace iatec.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("v1/events")]
-    public class EventController: ControllerBase
+    public class EventController : ControllerBase
     {
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult<List<Event>>> GetEvents([FromServices] DataContext context)
+        private readonly DataContext _context;
+
+        public EventController(DataContext context)
         {
-            var events = await context.Events.ToListAsync();
-            return events;
+            _context = context;
         }
 
+        // GET: api/Event
         [HttpGet]
-        [Route("{id:int}")]
-        public async Task<ActionResult<Event>> GetEventsById([FromServices] DataContext context, int id)
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
         {
-            var ev = await context.Events.Include(x => x.User)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
-            return ev;
+            return await _context.Events.ToListAsync();
         }
 
-        [HttpGet]
-        [Route("users/{id:int}")]
-        public async Task<ActionResult<List<Event>>> GetEventsByUser([FromServices] DataContext context, int id)
+        // GET: api/Event/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Event>> GetEvent(int id)
         {
-            var events = await context.Events.Include(x => User)
-                .Include(x => x.Id == id)
-                .AsNoTracking()
-                .Where(x => x.UserId == id)
-                .ToListAsync();
-            return events;
+            var @event = await _context.Events.FindAsync(id);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            return @event;
         }
 
+        // PUT: api/Event/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutEvent(int id, Event @event)
+        {
+            if (id != @event.Id)
+            {
+                return BadRequest();
+            }
 
+            _context.Entry(@event).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EventExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Event
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        [Route("")]
-        public async Task<ActionResult<Event>> Post(
-            [FromServices] DataContext context,
-            [FromBody]Event model)
+        public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
-            if (ModelState.IsValid)
-            {
-                context.Events.Add(model);
-                await context.SaveChangesAsync();
-                return model;
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            _context.Events.Add(@event);
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
         }
 
+        // DELETE: api/Event/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Event>> DeleteEvent(int id)
+        {
+            var @event = await _context.Events.FindAsync(id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            _context.Events.Remove(@event);
+            await _context.SaveChangesAsync();
+
+            return @event;
+        }
+
+        private bool EventExists(int id)
+        {
+            return _context.Events.Any(e => e.Id == id);
+        }
     }
 }
