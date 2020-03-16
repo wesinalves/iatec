@@ -1,0 +1,24 @@
+<h2>Cadastrar Evento</h2>
+<form>
+    <p>Nome: <input type="text" name="name" [(ngModel)]="event.name"></p>
+    <p>Descrição: <input type="text" name="description" [(ngModel)]="event.description"></p>
+    <p>Local: <input type="text" name="place" [(ngModel)]="event.place"></p>
+    <p>Data: <input type="text" name="startDate" [(ngModel)]="event.startDate"></p>
+    <p>Tipo: <input type="text" name="type" [(ngModel)]="event.type"></p>
+    
+    <button type="button" (click)="saveEvent()" *ngIf="!update">Salvar</button>
+    <button type="button" (click)="updateEvent(event.id)" *ngIf="update">Atualizar</button>
+</form>
+
+<hr/>
+<h2>Listagem</h2>
+
+<div *ngFor = "let e of events" style="border-style: solid; border-width: 1px; margin-bottom: 5px; padding: 5px;">
+    #id: {{e.id}}<br/>
+    Nome: {{e.name}}<br/>
+    Descrição: {{e.description}}<br/>
+    Local: {{e.place}}<br/>
+    Data: {{e.startDate | date:'shortDate'}}<br/>
+    Tipo: {{e.type}}<br/>
+    <button (click)="selectEvent(e.id)">editar</button> - <button (click)="removeEvent(e.id)">excluir</button>
+</div>

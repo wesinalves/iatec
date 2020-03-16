@@ -17,6 +17,9 @@ namespace iatec.Models
         public string Place { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
+        public string Type { get; set; }
+
+        [Required(ErrorMessage = "campo obrigatório")]
         [DataType(DataType.DateTime)]
         public System.DateTime StartDate { get; set; }
 
