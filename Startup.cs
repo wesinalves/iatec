@@ -39,7 +39,13 @@ namespace iatec
                         .AllowAnyMethod();
                 });
             });
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+
+            services.AddEntityFrameworkNpgsql()
+                .AddDbContext<DataContext>(
+                    options => options.UseNpgsql(
+                        Configuration.GetConnectionString("BaseIatec")));
+
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
             services.AddScoped<DataContext, DataContext>();
             services.AddControllers();
             

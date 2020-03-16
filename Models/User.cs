@@ -5,15 +5,15 @@ namespace iatec.Models
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Name { get; set; }
+        public string name { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Password { get; set; }
+        public string password { get; set; }
     }
 }

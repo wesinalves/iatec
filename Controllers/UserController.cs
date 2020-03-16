@@ -48,7 +48,7 @@ namespace iatec.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != user.Id)
+            if (id != user.id)
             {
                 return BadRequest();
             }
@@ -84,7 +84,7 @@ namespace iatec.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetUser", new { id = user.Id }, user);
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUser), new { id = user.id }, user);
         }
 
         // DELETE: api/User/5
@@ -105,7 +105,7 @@ namespace iatec.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.id == id);
         }
     }
 }

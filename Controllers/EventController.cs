@@ -48,7 +48,7 @@ namespace iatec.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent(int id, Event @event)
         {
-            if (id != @event.Id)
+            if (id != @event.id)
             {
                 return BadRequest();
             }
@@ -84,7 +84,7 @@ namespace iatec.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
-            return CreatedAtAction(nameof(GetEvent), new { id = @event.Id }, @event);
+            return CreatedAtAction(nameof(GetEvent), new { id = @event.id }, @event);
         }
 
         // DELETE: api/Event/5
@@ -105,7 +105,7 @@ namespace iatec.Controllers
 
         private bool EventExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.Events.Any(e => e.id == id);
         }
     }
 }

@@ -5,29 +5,29 @@ namespace iatec.Models
     public class Event
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Name { get; set; }
+        public string name { get; set; }
 
         [MaxLength(1024, ErrorMessage = "campo obrigatório")]
-        public string Description { get; set; }
+        public string description { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Place { get; set; }
+        public string place { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
-        public string Type { get; set; }
+        public string type { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
         [DataType(DataType.DateTime)]
-        public System.DateTime StartDate { get; set; }
+        public System.DateTime startDate { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]
         [Range(1, int.MaxValue, ErrorMessage="categoria inválida")]
-        public int UserId { get; set; }
+        public int userId { get; set; }
 
-        public User User { get; set; }
+        public User user { get; set; }
 
         
     }
