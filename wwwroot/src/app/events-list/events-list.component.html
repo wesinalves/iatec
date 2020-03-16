@@ -1,19 +1,21 @@
 <h2>Cadastrar Evento</h2>
-<form>
-    <p>Nome: <input type="text" name="name" [(ngModel)]="event.name"></p>
-    <p>Descrição: <input type="text" name="description" [(ngModel)]="event.description"></p>
-    <p>Local: <input type="text" name="place" [(ngModel)]="event.place"></p>
-    <p>Data: <input type="text" name="startDate" [(ngModel)]="event.startDate"></p>
-    <p>Tipo: <input type="text" name="type" [(ngModel)]="event.type"></p>
+<form style="border-style: solid; border-width: 1px; margin-bottom: 5px; padding: 5px; color: DarkSlateGray">
+    <p>Nome: <br><input type="text" name="name" [(ngModel)]="event.name" size="50"></p>
+    <p>Descrição: <br><input type="text" name="description" [(ngModel)]="event.description" size="50"></p>
+    <p>Local: <br><input type="text" name="place" [(ngModel)]="event.place" size="50"></p>
+    <p>Data: <br><input type="text" name="startDate" [(ngModel)]="event.startDate" size="50"></p>
+    <p>Tipo: <br><input type="text" name="type" [(ngModel)]="event.type" size="50"></p>
     
     <button type="button" (click)="saveEvent()" *ngIf="!update">Salvar</button>
     <button type="button" (click)="updateEvent(event.id)" *ngIf="update">Atualizar</button>
 </form>
 
-<hr/>
 <h2>Listagem</h2>
+<input type="text" name="search" placeholder="pesquisar eventos" (change)="search($event)">
+<button (click)="clear()">Limpar</button>
+<br><br>
 
-<div *ngFor = "let e of events" style="border-style: solid; border-width: 1px; margin-bottom: 5px; padding: 5px;">
+<div *ngFor = "let e of filteredEvents" style="border-style: solid; border-width: 1px; margin-bottom: 5px; padding: 5px; color: DarkSlateGray">
     #id: {{e.id}}<br/>
     Nome: {{e.name}}<br/>
     Descrição: {{e.description}}<br/>

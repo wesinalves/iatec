@@ -1,6 +1,7 @@
 import { EventService } from './../event.service';
 import { Component, OnInit } from '@angular/core';
 import { EventModel } from './event.model';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class EventsListComponent implements OnInit {
   events: Array<any>;
   event: EventModel = new EventModel();
   update: boolean;
+  filteredEvents: Array<any>;
   
   constructor(private eventService: EventService) { }
 
@@ -21,7 +23,11 @@ export class EventsListComponent implements OnInit {
   }
 
   list(){
-    this.eventService.list().subscribe(data => this.events = data);
+    this.eventService.list().subscribe(data => 
+      {
+        this.events = _.clone(data)
+        this.filteredEvents = data
+      });
   }
 
   saveEvent(){
@@ -34,6 +40,7 @@ export class EventsListComponent implements OnInit {
   }
 
   selectEvent(id: number){
+    
     this.update = true
     this.eventService.select(id).subscribe(event => {
       this.event = event;
@@ -59,6 +66,19 @@ export class EventsListComponent implements OnInit {
       this.list();    
     }, 
       err => {console.log('erro ao atualizar evento', err)});
+  }
+
+  search(ev: any){
+    let serVal = ev.target.value;
+    if(serVal && serVal.trim() != ''){
+      this.filteredEvents = this.events.filter((a) => {
+        return (a.startDate.toLowerCase().indexOf(serVal.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  clear(){
+    this.filteredEvents = _.clone(this.events)
   }
 
 }
